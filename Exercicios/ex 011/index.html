@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Imagens Dinâmicas</title>
+</head>
+<body>
+    <h1>Teste de imagens dinâmicas</h1>
+    <p>Esta é uma página de teste para exibir imagens dinâmicas.</p>
+    <picture>
+        <source media="(max-width:750px)" srcset="imagens/foto-p.png" type="image/png">
+        <source media="(max-width:1050px )" srcset="imagens/foto-m.png" type="image/png">
+        <img src="imagens/foto-g.png" alt="imagem flexivel">
+        <h1>Reproduzindo audios</h1>
+        <p>Vamos reproduzir um audio</p>
+        <audio src="midia/adrenalina.markin.mp3.mp3"controls autoplay></audio>
+    </picture>
+    <video src="liamo.mp4" controls>
+        <source src="" type="">
+    </video>
+</body>
+</html>

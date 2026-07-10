@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grouping Tags</title>
+    <style>
+        body{
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: gray;
+        }
+        header{
+            background-color: rgb(255, 255, 255);
+            padding:10px;
+            margin: 10px;
+            border-radius: 10px;
+        }
+        header > h1{
+            text-align: center;
+        }
+        h2{
+            text-align: center;
+            font: bolder 1.5em Arial;
+        }
+        nav{
+            background-color: rgb(71, 71, 71);
+            border-radius: 7px;
+        }
+        nav > a{
+            text-decoration: none;
+            margin-left: 10px;
+            margin-right: 30px;
+            color: white;
+        }
+        nav > a:hover{
+            text-decoration: underline;
+        }
+        main{
+            background-color: white;
+            padding:10px;
+            margin: 10px;
+        }
+        article{
+            background-color: lightgray;
+            padding: 5px;
+            border-radius: 10px;
+        }
+        article#cbf{
+            background-color: lightgray;
+            margin-bottom: 30px;
+        }
+        article#bolsonario{
+            background-color: lightgray;
+            margin-top: 30px;
+        }
+        #bolsonario >img{
+            width: 100vw;
+            height: 100vw;
+            object-fit: cover;
+        }
+        iframe{
+            border-radius: 8px;
+        }
+        article > aside{
+            background-color: rgb(165, 165, 165);
+        }
+        footer{
+            background-color: black;
+            color: aliceblue;
+            text-align: center;
+            padding: 1px;
+            margin: 0px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Meu site</h1>
+        <nav>
+            <a href="#">Link</a>
+            <a href="#">Link</a>
+            <a href="#">Link</a>
+            <a href="#">Link</a>
+            <a href="#">Link</a>
+        </nav>
+    </header>
+    <main>
+        <section id="assuntos">
+            <article id="cbf">
+                <h2>Jogo da CBF</h2>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quo at, excepturi ratione explicabo ipsa soluta beatae voluptatibus error dolorem asperiores unde, in deserunt temporibus nulla quasi laudantium quaerat! Quisquam.</p>
+                <p>O jogo de ontem foi top!! olha o jogo ai embaixo ↓</p>
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/4smRpesjS6M?si=rk23gOMDi1qAzCWB" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            </article>
+        </section>
+        <section id="noticias">
+            <article>
+                <h2>Noticias sobre o Brasil</h2>
+                <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maiores quibusdam omnis ut architecto doloremque possimus similique libero, esse ad provident, natus hic, delectus dolorem ipsum quos nobis. Blanditiis, voluptatum corrupti!</p>
+                <aside>
+                    <p>Artigo escrito por Gustavo</p>
+                </aside>
+            </article>
+            <article id="bolsonario">
+                <h2>Prisao do Ex-Presidente Jair Bolsonario</h2>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime eligendi provident corporis aperiam optio eveniet, soluta dolore vel veritatis, eaque doloribus ut eos quibusdam, quasi error explicabo. Ipsa, iure odio!</p>
+                <p>Ex presidente Jair bolsonario foi preso por 200 anos </p>
+                <picture>
+                    <source media="(max-width: 350px)" srcset="imagens/bolsonario-p.png" type="image/png">
+                    <source media="(max-width:520px)" srcset="imagens/bolsonario-m.png" type="image/png">
+                    <img src="imagens/bolsonaro-g.png" alt="">
+                </picture>
+            </article>
+        </section>
+    </main>
+    <footer>
+        <p>Desenvolvido por Gustavo DEV</p>
+    </footer>
+</body>
+</html>
