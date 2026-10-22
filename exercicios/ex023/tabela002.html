@@ -12,6 +12,7 @@
         table {
             width: 500px;
             border-collapse: collapse;
+            position:relative;
         }
 
         caption {
@@ -21,6 +22,12 @@
             padding: 10px;
             border-top-right-radius: 5px;
             border-top-left-radius: 5px;
+        }
+        
+        thead > tr > th {
+            position: sticky;
+            top: -1px;
+            background-color: black;
         }
 
         td, th{
