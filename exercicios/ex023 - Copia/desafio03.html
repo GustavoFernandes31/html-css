@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabelas</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 500px;
+            height: 100px;
+            text-align: center;
+        }
+
+        caption {
+            background-color: lightgray;
+            height: 50px;
+            text-align: center;
+            font-size: 2em;
+
+        }
+
+        td,
+        th {
+            padding: 10px;
+            border: 1px solid black;
+        }
+    </style>
+</head>
+
+<body>
+    <table>
+        <caption>Gênero, Nome e Filme</caption>
+        <thead>
+            <tr>
+                <th scope="col">Grupo</th>
+                <th scope="col">Nomes</th>
+                <th colspan="3" scope="col">Filmes</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th rowspan="3" scope="rowgroup">Mulheres</th>
+                <td>Ana</td>
+                <td>Aliem</td>
+                <td>rambo</td>
+                <td>Vingadores</td>
+            </tr>
+            <tr>
+                <td>Beatriz</td>
+                <td>Hulk</td>
+                <td>Inception</td>
+                <td>Batman</td>
+            </tr>
+            <tr>
+                <td>Clúdia</td>
+                <td>Oblivion</td>
+                <td>Matriz</td>
+                <td>Big Hero</td>
+            </tr>
+            <tr>
+                <th rowspan="3" scope="rowgroup">Homens</th>
+                <td>Bruno</td>
+                <td>O Intocavel</td>
+                <td>Amseia</td>
+                <td>Vingadores</td>
+            </tr>
+            <tr>
+                <td>Daniel</td>
+                <td>Wall-e</td>
+                <td>Odisei</td>
+                <td>Todo mundo em pânico</td>
+            </tr>
+            <tr>
+                <td>Gustavo</td>
+                <td>Toy Story</td>
+                <td>Minions</td>
+                <td>Vingadores</td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <th colspan="4" scope="row">Total</th>
+                <td>1000</td>
+            </tr>
+        </tfoot>
+    </table>
+</body>
+
+</html>
