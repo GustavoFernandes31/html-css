@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RPG Pixel Art - Protótipo Fase 1</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      background-color: #111;
+      color: #fff;
+      font-family: monospace;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      overflow: hidden;
+    }
+    #game-container {
+      position: relative;
+      border: 4px solid #333;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+    }
+    canvas {
+      display: block;
+      background-color: #1a1a2e;
+      image-rendering: pixelated;
+      image-rendering: crisp-edges;
+    }
+    .controls-hint {
+      margin-top: 10px;
+      color: #aaa;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="game-container">
+    <canvas id="gameCanvas" width="640" height="360"></canvas>
+  </div>
+  <div class="controls-hint">
+    Controles: <strong>A / D</strong> ou <strong>Seta Esquerda / Direita</strong> para mover | <strong>Espaço / W / Seta Cima</strong> para pular
+  </div>
+
+  <script>
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
+    ctx.imageSmoothingEnabled = false;
+
+    // Configurações do jogo
+    const TILE_SIZE = 32;
+    const GRAVITY = 0.5;
+    const FRICTION = 0.8;
+
+    // Mapa simples (1 = Plataforma, 0 = Ar)
+    const mapWidth = 30;
+    const mapHeight = 12;
+    const tileMap = [
+      [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+      [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+      [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+      [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+      [0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+      [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+      [0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0],
+      [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+      [0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0],
+      [0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+      [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+      [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+    ];
+
+    // Gerenciador de Entrada
+    const keys = {};
+    window.addEventListener('keydown', e => keys[e.code] = true);
+    window.addEventListener('keyup', e => keys[e.code] = false);
+
+    // Entidade Jogador
+    const player = {
+      x: 64,
+      y: 200,
+      width: 20,
+      height: 28,
+      vx: 0,
+      vy: 0,
+      speed: 3.5,
+      jumpForce: -9.5,
+      grounded: false
+    };
+
+    // Câmera 2D
+    const camera = {
+      x: 0,
+      y: 0,
+      width: canvas.width,
+      height: canvas.height
+    };
+
+    function updatePlayer() {
+      // Movimento horizontal
+      if (keys['KeyA'] || keys['ArrowLeft']) player.vx = -player.speed;
+      else if (keys['KeyD'] || keys['ArrowRight']) player.vx = player.speed;
+      else player.vx *= FRICTION;
+
+      // Pulo
+      if ((keys['Space'] || keys['KeyW'] || keys['ArrowUp']) && player.grounded) {
+        player.vy = player.jumpForce;
+        player.grounded = false;
+      }
+
+      // Gravidade
+      player.vy += GRAVITY;
+
+      // Resolução de colisão horizontal
+      player.x += player.vx;
+      checkTileCollision(player, 'horizontal');
+
+      // Resolução de colisão vertical
+      player.y += player.vy;
+      player.grounded = false;
+      checkTileCollision(player, 'vertical');
+
+      // Atualiza câmera para seguir o jogador
+      camera.x += (player.x - camera.width / 2 - camera.x) * 0.1;
+      camera.y += (player.y - camera.height / 2 - camera.y) * 0.1;
+
+      // Limites da Câmera
+      camera.x = Math.max(0, Math.min(camera.x, mapWidth * TILE_SIZE - camera.width));
+      camera.y = Math.max(0, Math.min(camera.y, mapHeight * TILE_SIZE - camera.height));
+    }
+
+    function checkTileCollision(entity, direction) {
+      const startTileX = Math.floor(entity.x / TILE_SIZE);
+      const endTileX = Math.floor((entity.x + entity.width) / TILE_SIZE);
+      const startTileY = Math.floor(entity.y / TILE_SIZE);
+      const endTileY = Math.floor((entity.y + entity.height) / TILE_SIZE);
+
+      for (let y = startTileY; y <= endTileY; y++) {
+        for (let x = startTileX; x <= endTileX; x++) {
+          if (y >= 0 && y < mapHeight && x >= 0 && x < mapWidth) {
+            if (tileMap[y][x] === 1) {
+              if (direction === 'horizontal') {
+                if (entity.vx > 0) entity.x = x * TILE_SIZE - entity.width;
+                else if (entity.vx < 0) entity.x = (x + 1) * TILE_SIZE;
+                entity.vx = 0;
+              }
+              if (direction === 'vertical') {
+                if (entity.vy > 0) {
+                  entity.y = y * TILE_SIZE - entity.height;
+                  entity.grounded = true;
+                } else if (entity.vy < 0) {
+                  entity.y = (y + 1) * TILE_SIZE;
+                }
+                entity.vy = 0;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    function render() {
+      // Limpa tela
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      ctx.save();
+      // Aplica deslocamento da câmera
+      ctx.translate(-Math.floor(camera.x), -Math.floor(camera.y));
+
+      // Renderiza Mapa
+      for (let y = 0; y < mapHeight; y++) {
+        for (let x = 0; x < mapWidth; x++) {
+          if (tileMap[y][x] === 1) {
+            ctx.fillStyle = '#4a5568';
+            ctx.fillRect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+            ctx.strokeStyle = '#2d3748';
+            ctx.strokeRect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+          }
+        }
+      }
+
+      // Renderiza Jogador (Representação Pixel Art temporária)
+      ctx.fillStyle = '#e53e3e';
+      ctx.fillRect(player.x, player.y, player.width, player.height);
+
+      // Olho do jogador indicando direção
+      ctx.fillStyle = '#fff';
+      ctx.fillRect(player.x + (player.vx >= 0 ? 12 : 2), player.y + 4, 4, 4);
+
+      ctx.restore();
+    }
+
+    function gameLoop() {
+      updatePlayer();
+      render();
+      requestAnimationFrame(gameLoop);
+    }
+
+    gameLoop();
+  </script>
+</body>
+</html>
