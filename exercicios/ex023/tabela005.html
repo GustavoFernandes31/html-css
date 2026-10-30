@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercício de tabela</title>
+    <style>
+        body{
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        table{
+            border-collapse: collapse;
+            width: 500px;
+        }
+        caption{
+            font-size: 1.4em;
+            font-weight: bolder;
+            padding: 5px;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .coln{
+            background-color: yellow;
+        }
+        .colv{
+            background-color: aqua;
+        }
+    </style>
+</head>
+<body>
+    <table>
+        <caption>Formulario</caption>
+        <colgroup>
+            <col class="coln" span="2">
+            <col class="colv" span="2"> 
+        </colgroup>
+        <tr>
+            <th  scope="col">Nome</th>
+            <th scope="col">Idade</th>
+            <th scope="col">Sexo</th>
+            <th scope="col">Profissão</th>
+        </tr>
+        <tr style="background-color: ;">
+            <td>Gustavo</td>
+            <td>15</td>
+            <td>M</td>
+            <td>DEV</td>
+        </tr>
+         <tr>
+            <td>Gustavo</td>
+            <td>15</td>
+            <td>M</td>
+            <td>DEV</td>
+        </tr>
+         <tr>
+            <td>Gustavo</td>
+            <td>15</td>
+            <td>M</td>
+            <td>DEV</td>
+        </tr>
+         <tr>
+            <td>Gustavo</td>
+            <td>15</td>
+            <td>M</td>
+            <td>DEV</td>
+        </tr>
+         <tr>
+            <td>Gustavo</td>
+            <td>15</td>
+            <td>M</td>
+            <td>DEV</td>
+        </tr>
+    </table>
+</body>
+</html>
